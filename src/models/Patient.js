@@ -28,6 +28,10 @@ const patientSchema = new Schema({
       const hash = bcrypt.hashSync(value, 10);
       return hash;
     }
+  },
+  walletId: {
+    type: String,
+    required: false,
   }
 }, {
   timestamps: true,
