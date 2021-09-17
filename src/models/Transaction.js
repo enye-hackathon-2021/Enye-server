@@ -36,9 +36,14 @@ transactionSchema.post('save', async function(doc, next) {
     const doctor = await Doctor.findOne({ _id: doc.to });
     const amount = await doc.amount;
 
-    await debitWallet(amount, patient.walletId);
-    await fundWallet(amount, doctor.walletId);
+    const finished = await debitWallet(amount, patient.walletId);
+    const finished2 = await fundWallet(amount, doctor.walletId);
 
+    if (finished && finished2) {
+      const transaction = await this.model.findOne({ _id: doc._id });
+      transaction.status = 'successful';
+      await transaction.save();
+    }
   }
   next();
 });
