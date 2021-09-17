@@ -13,11 +13,6 @@ router.post(
 );
 
 router.get(
-  '/:questionId',
-  getQuestion
-);
-
-router.get(
   '/user-questions',
   getUserQuestions
 );
@@ -25,6 +20,11 @@ router.get(
 router.get(
   '/available-questions',
   getAllUnAnsweredQuestions
+);
+
+router.get(
+  '/:questionId',
+  getQuestion
 );
 
 export default router;

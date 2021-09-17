@@ -116,7 +116,7 @@ const endpoints = {
     }
   },
   '/auth/fund-wallet': {
-    get: {
+    post: {
       tags: ['auth'],
       summary: 'fund user wallet balance',
       description: 'fund user wallet balance',

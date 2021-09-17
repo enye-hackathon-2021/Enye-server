@@ -27,12 +27,16 @@ export const postSolution = async (req, res, next) => {
       patient: ObjectId(question.patient) 
     });
     
+    question.isAnswered = true;
+    await question.save();
     // Create a new transaction
-    await Transaction.create({
+    const tx = new Transaction({
       from: ObjectId(question.patient),
       to: ObjectId(_id),
       amount: 20,
+      status: 'pending',
     });
+    await tx.save();
   
     return handleResponse(res, 201, 'Solution submitted', { solution });
   } catch (error) { 
@@ -61,9 +65,9 @@ export const getQuestionSolution = async (req, res, next) => {
 export const getUserSolutions = async (req, res, next) => {
   try {
     const { _id } = req.user;
-    const solutions = Solution.find({
+    const solutions = await Solution.find({
       patient: ObjectId(_id)
-    }).populate('doctor').exec();
+    }).populate('question').exec();
 
     return handleResponse(res, 200, 'Solutions fetched', { solutions })
   } catch (error) {
@@ -71,12 +75,12 @@ export const getUserSolutions = async (req, res, next) => {
   }
 };
 
-export const getDoctorSolutions = (req, res, next) => {
+export const getDoctorSolutions = async (req, res, next) => {
   try {
     const { _id } = req.user;
-    const solutions = Solution.find({
+    const solutions = await Solution.find({
       doctor: ObjectId(_id)
-    }).populate('patient').exec();
+    }).populate('question').exec();
 
     return handleResponse(res, 200, 'Solutions fetched', { solutions })
   } catch (error) {

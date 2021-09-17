@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import mongoose, { model, Schema } from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { debitWallet, fundWallet } from '../utils/wallet';
 import Doctor from './Doctor';
@@ -27,23 +27,22 @@ const transactionSchema = new Schema({
   }
 });
 
-export default model('Transaction', transactionSchema);
-
-transactionSchema.post('save', async function(doc, next) {
-  if (doc.status !== 'successful') {
+transactionSchema.pre('save', async function(next) {
+  if (this.status !== 'successful') {
     // get the from and to
-    const patient = await Patient.findOne({ _id: doc.from });
-    const doctor = await Doctor.findOne({ _id: doc.to });
-    const amount = await doc.amount;
+    const patient = await Patient.findOne({ _id: this.from });
+    const doctor = await Doctor.findOne({ _id: this.to });
+    const amount = this.amount;
 
     const finished = await debitWallet(amount, patient.walletId);
     const finished2 = await fundWallet(amount, doctor.walletId);
 
-    if (finished && finished2) {
-      const transaction = await this.model.findOne({ _id: doc._id });
-      transaction.status = 'successful';
-      await transaction.save();
-    }
+    // if (finished && finished2) {
+    //   const transaction = await mongoose.models['Transaction'].findOne({ _id: this._id });
+    //   transaction.status = 'successful';
+    //   await transaction.save();
+    // }
   }
   next();
 });
+export default model('Transaction', transactionSchema);

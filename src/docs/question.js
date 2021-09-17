@@ -6,7 +6,7 @@ const endpoints = {
       description: 'post question',
       security: [
         {
-          bearer: []
+          Bearer: []
         }
       ],
       parameters: [
@@ -45,7 +45,7 @@ const endpoints = {
       description: 'Get question details',
       security: [
         {
-          bearer: []
+          Bearer: []
         }
       ],
       parameters: [
@@ -78,7 +78,7 @@ const endpoints = {
       description: 'Get user question ',
       security: [
         {
-          bearer: []
+          Bearer: []
         }
       ],
       responses: {
@@ -101,7 +101,7 @@ const endpoints = {
       description: 'Get all question ',
       security: [
         {
-          bearer: []
+          Bearer: []
         }
       ],
       responses: {

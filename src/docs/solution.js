@@ -6,7 +6,7 @@ const endpoints = {
       description: 'post solutions',
       security: [
         {
-          bearer: []
+          Bearer: []
         }
       ],
       parameters: [
@@ -48,7 +48,7 @@ const endpoints = {
       description: 'Get question solution',
       security: [
         {
-          bearer: []
+          Bearer: []
         }
       ],
       parameters: [
@@ -81,7 +81,7 @@ const endpoints = {
       description: 'Get user solutions ',
       security: [
         {
-          bearer: []
+          Bearer: []
         }
       ],
       responses: {
@@ -104,7 +104,7 @@ const endpoints = {
       description: 'Get all doctor solutions ',
       security: [
         {
-          bearer: []
+          Bearer: []
         }
       ],
       responses: {

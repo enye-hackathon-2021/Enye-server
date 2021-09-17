@@ -26,16 +26,15 @@ export const createWallet = async (email) => {
       url: endpoints.CREATE_WALLET,
       headers,
       data: {
-        email,
+        customer_email: email,
       }
     });
 
-    console.log(data);
     if (!data.success) {
       throw new Error('Could not create wallet');
     }
 
-    return data.data[0].wallet_id;
+    return data.data.wallet_id;
   } catch (error) {
     return error.message;
   }
@@ -54,7 +53,6 @@ export const getWalletBalance = async (walletId) => {
       url: endpoints.GET_BALANCE + walletId,
     });
 
-    console.log(data);
     if (!data.success) {
       throw new Error('Could not get wallet balance');
     }
@@ -78,12 +76,11 @@ export const fundWallet = async (amount, walletId) => {
       url: endpoints.FUND_WALLET,
       headers,
       data: {
-        walletId,
+        wallet_id: walletId,
         amount
       } 
     });
 
-    console.log(data);
     if (!data.success) {
       throw new Error('Could not fund wallet');
     }
@@ -107,12 +104,11 @@ export const debitWallet = async (amount, walletId) => {
       url: endpoints.DEBIT_WALLET,
       headers,
       data: {
-        walletId,
+        wallet_id: walletId,
         amount
       } 
     });
 
-    console.log(data);
     if (!data.success) {
       throw new Error('Could not fund wallet');
     }

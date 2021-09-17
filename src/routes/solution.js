@@ -13,11 +13,6 @@ router.post(
 );
 
 router.get(
-  '/:questionId',
-  getQuestionSolution
-);
-
-router.get(
   '/user-solutions',
   getUserSolutions
 );
@@ -25,6 +20,11 @@ router.get(
 router.get(
   '/doctor-solutions',
   getDoctorSolutions
+);
+
+router.get(
+  '/:questionId',
+  getQuestionSolution
 );
 
 export default router;
