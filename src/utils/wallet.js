@@ -45,7 +45,7 @@ export const createWallet = async (email) => {
  * @param {String} walletId Customer wallet ID
  * @returns {Number} Customer wallet balance
  */
-export const getWalletBalance = (walletId) => {
+export const getWalletBalance = async (walletId) => {
   try {
     const { data } = await axios({
       method: 'GET',
@@ -69,7 +69,7 @@ export const getWalletBalance = (walletId) => {
  * @param {String} walletId Customer wallet ID
  * @returns {Boolean} Operation Status
  */
-export const fundWallet = (amount, walletId) => {
+export const fundWallet = async (amount, walletId) => {
   try {
     const { data } = await axios({
       method: 'POST',
@@ -97,7 +97,7 @@ export const fundWallet = (amount, walletId) => {
  * @param {String} walletId Customer wallet ID
  * @returns {Boolean} Operation Status
  */
-export const debitWallet = (amount, walletId) => {
+export const debitWallet = async (amount, walletId) => {
   try {
     const { data } = await axios({
       method: 'POST',
