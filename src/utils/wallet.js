@@ -24,6 +24,7 @@ export const createWallet = async (email) => {
     const { data } = await axios({
       method: 'POST',
       url: endpoints.CREATE_WALLET,
+      headers,
       data: {
         email,
       }
@@ -49,6 +50,7 @@ export const getWalletBalance = async (walletId) => {
   try {
     const { data } = await axios({
       method: 'GET',
+      headers,
       url: endpoints.GET_BALANCE + walletId,
     });
 
@@ -74,6 +76,7 @@ export const fundWallet = async (amount, walletId) => {
     const { data } = await axios({
       method: 'POST',
       url: endpoints.FUND_WALLET,
+      headers,
       data: {
         walletId,
         amount
@@ -102,6 +105,7 @@ export const debitWallet = async (amount, walletId) => {
     const { data } = await axios({
       method: 'POST',
       url: endpoints.DEBIT_WALLET,
+      headers,
       data: {
         walletId,
         amount

@@ -12,7 +12,8 @@ const questionSchema = new Schema({
   },
   patient: {
     type: ObjectId,
-    required: true
+    required: true,
+    ref: 'Patient'
   }
 });
 
