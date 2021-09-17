@@ -1,5 +1,7 @@
 require('dotenv').config();
 import authDoc from './auth';
+import questionDoc from './question';
+import solutionDoc from './solution';
 
 const doc = {
   swagger: '2.0',
@@ -15,6 +17,8 @@ const doc = {
   produces: ['application/json'],
   paths: {
     ...authDoc,
+    ...questionDoc,
+    ...solutionDoc,
   },
   securityDefinitions: {
     Bearer: {

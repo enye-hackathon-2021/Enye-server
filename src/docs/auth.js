@@ -91,6 +91,67 @@ const endpoints = {
         }
       }
     }
+  },
+  '/auth/balance': {
+    get: {
+      tags: ['auth'],
+      summary: 'Get user wallet balance',
+      description: 'Get user wallet balance',
+      security: [
+        {
+          Bearer: []
+        }
+      ],
+      responses: {
+        200: {
+          description: 'Balanced fetched successful'
+        },
+        400: {
+          description: 'Bad request'
+        }, 
+        500: {
+          description: 'Internal server error'
+        }
+      }
+    }
+  },
+  '/auth/fund-wallet': {
+    get: {
+      tags: ['auth'],
+      summary: 'fund user wallet balance',
+      description: 'fund user wallet balance',
+      security: [
+        {
+          Bearer: []
+        }
+      ],
+      parameters: [
+        { 
+          name: 'body',
+          in: 'body',
+          required: true,
+          schema: {
+            type: 'object',
+            properties: {
+              amount: {
+                type: 'integer'
+              }
+            }
+          }
+        }
+      ],
+      responses: {
+        200: {
+          description: 'Balanced fetched successful'
+        },
+        400: {
+          description: 'Bad request'
+        }, 
+        500: {
+          description: 'Internal server error'
+        }
+      }
+    }
   }
 };
 

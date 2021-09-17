@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import Doctor from '../models/Doctor';
 import Patient from '../models/Patient';
 import handleResponse from '../utils/response';
+import { createWallet, fundWallet, getWalletBalance } from '../utils/wallet';
 
 export const register = async (req, res, next) => {
   try {
@@ -30,6 +31,9 @@ export const register = async (req, res, next) => {
       throw new Error('Email has been used to create a patient account')
     }
 
+    // Create wallet for user
+    const walletId = await createWallet(email);
+
     // Depending on the role 
     if (role === 'doctor') {
       const doctor = await Doctor.create({
@@ -40,6 +44,7 @@ export const register = async (req, res, next) => {
         gender,
         field,
         experienceLevel,
+        walletId
       });
       // Generate token
       const token = jwt.sign({ ...doctor.toObject(), password: undefined }, process.env.JWT_SECRET);
@@ -49,6 +54,7 @@ export const register = async (req, res, next) => {
         token
       });
     }
+
     // patient role
     const patient = await Patient.create({
       email,
@@ -56,6 +62,7 @@ export const register = async (req, res, next) => {
       password,
       age,
       gender,
+      walletId
     });
 
     const token = jwt.sign({ ...patient.toObject(), password: undefined }, process.env.JWT_SECRET);
@@ -109,12 +116,34 @@ export const login = async (req, res, next) => {
 
 
     const token = jwt.sign({ ...patient.toObject(), password: undefined }, process.env.JWT_SECRET);
-    return handleResponse(res, 201, 'Login successful', {
+    return handleResponse(res, 200, 'Login successful', {
       ...patient.toObject(), 
       password: undefined,
       token
     });
   } catch (error) {
     next(error);
+  }
+};
+
+export const getUserBalance = async (req, res, next) => {
+  try {
+    const { walletId } = req.user;
+    const balance = await getWalletBalance(walletId);
+    return handleResponse(res, 200, 'Balance fetched', { balance } );
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const fundUserWallet = async (req, res, next) => {
+  try {
+    const { walletId } = req.user;
+    const { amount } = req.body;
+
+    await fundWallet(parseInt(amount, 10), walletId);
+    return handleResponse(res, 200, 'wallet funded')
+  } catch (error) {
+    return next(error);
   }
 };

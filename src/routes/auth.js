@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { login, register } from '../controllers/auth';
+import { fundUserWallet, getUserBalance, login, register } from '../controllers/auth';
 import AuthValidator from '../validators/auth';
 import validate from '../middlewares/validate';
+import verifyToken from '../middlewares/token';
 
 const router = Router();
 
@@ -20,5 +21,18 @@ router.post(
   validate,
   login  
 );
+
+router.get(
+  '/balance',
+  verifyToken(),
+  getUserBalance,
+);
+
+router.post(
+  '/fund-wallet',
+  verifyToken(),
+  fundUserWallet
+);
+
 
 export default router;

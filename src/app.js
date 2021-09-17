@@ -10,6 +10,9 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDoc from './docs';
 import indexRouter from './routes/index';
 import authRouter from './routes/auth';
+import questionRouter from './routes/question';
+import solutionRouter from './routes/solution';
+import verifyToken from './middlewares/token';
 import handleResponse from './utils/response';
 
 const debug = require('debug')('enye-server:server');
@@ -31,6 +34,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 app.use('/api/v1/auth', authRouter);
+app.use(verifyToken());
+app.use('/api/v1/questions', questionRouter);
+app.use('/api/v1/solutions', solutionRouter);
 
 // 404 handler
 app.use((req, res, next) => {
